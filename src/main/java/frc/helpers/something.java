@@ -1,4 +1,4 @@
-package frc.helper;
+package frc.helpers;
 
 public class something {
     
