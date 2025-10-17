@@ -20,6 +20,6 @@ public class driveScheme implements ControlScheme{
         SlewRateLimiter xLimit = new SlewRateLimiter(0.5);
         SlewRateLimiter yLimit = new SlewRateLimiter(0.5);
 
-        //Set drivetrain command (default) - tell it what to do on controller input basically
+        //Set drivetrain command (default) - need to tell it what to do on controller input basically
     }
 }
