@@ -4,6 +4,11 @@ pluginManagement {
     repositories {
         mavenLocal()
         gradlePluginPortal()
+        mavenCentral()
+        maven { url 'https://frcmaven.wpi.edu/artifactory/release' }
+        maven { url 'https://maven.revrobotics.com/' }
+
+        // WPILib local maven
         String frcYear = '2025'
         File frcHome
         if (OperatingSystem.current().isWindows()) {
