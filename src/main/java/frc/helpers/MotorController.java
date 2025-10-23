@@ -98,6 +98,10 @@ public class MotorController{
         motor.disable();
     }
 
+    public void setVoltage(){
+        motor.setVoltage(Constants.OperatorConstants.ShooterVoltage);
+    }
+
     public void setVoltage(double volts){
         motor.setVoltage(volts);
     }
