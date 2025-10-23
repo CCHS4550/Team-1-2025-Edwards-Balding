@@ -38,7 +38,7 @@ public class Shooter extends SubsystemBase{
 
     public void setShooterSpeedDefault()
     {
-        this.setShooterSpeed(Constants.OperatorConstants.SHOOTER_SPEED);
+        this.setShooterSpeed(Constants.OperatorConstants.ShooterSpeed);
     }
 
     public Command shoot()
