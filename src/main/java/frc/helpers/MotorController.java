@@ -5,6 +5,8 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import frc.robot.Constants;
+
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 
@@ -25,10 +27,12 @@ import com.revrobotics.spark.SparkBase;
 
 public class MotorController{
     private SparkMax motor;
-    public SparkClosedLoopController pidController; //Keeping it PID for easy naming
+    public SparkClosedLoopController pidController; //Keeping it PID for easy reference
     private RelativeEncoder encoder;
     private String name;
+    private double voltageConversionFactor;
 
+    //Configurations to change values for the encoder and motor
     private EncoderConfig encoderConfig;
     private SparkMaxConfig sparkMaxConfig;
     
@@ -48,6 +52,7 @@ public class MotorController{
         motor.configure(sparkMaxConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kNoPersistParameters);
 
         this.encoder = motor.getEncoder();
+        voltageConversionFactor = Constants.OperatorConstants.voltageConversionFactor;
     }
     public MotorController(String name, int deviceID, MotorType controlMode, boolean inverted, IdleMode idleMode){
         this.motor = new SparkMax(deviceID, controlMode);
@@ -65,6 +70,7 @@ public class MotorController{
         motor.configure(sparkMaxConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kNoPersistParameters);
 
         this.encoder = motor.getEncoder();
+        voltageConversionFactor = Constants.OperatorConstants.voltageConversionFactor;
     }
 
     public void reset(){
@@ -78,15 +84,53 @@ public class MotorController{
     public void set(boolean stop, double speed){
         if(!stop){
             motor.set(speed);
+        }else{
+            motor.set(0);
         }
     }
+
+    public double getSpeed(){
+        return motor.get();
+    }
+    
 
     public void disable(){
         motor.disable();
     }
 
+    public void setVoltage(){
+        motor.setVoltage(Constants.OperatorConstants.ShooterVoltage);
+    }
+
+    public void setVoltage(double volts){
+        motor.setVoltage(volts);
+    }
+
+    public void setVoltage(double volts, double limit){
+        if(motor.getOutputCurrent() <= limit){
+            motor.setVoltage(volts);
+        }else{
+            motor.setVoltage(0);
+        }
+    }
+
+    public void setVoltageFromSpeed(double speed){
+        motor.setVoltage(speed*voltageConversionFactor);
+    }
+
+    public double getVelocity(){
+        return encoder.getVelocity();
+    }
+
     public void setPositionConversionFactor(double factor){
         encoderConfig.positionConversionFactor(factor);
+        sparkMaxConfig.apply(encoderConfig);
+        motor.configure(sparkMaxConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kNoPersistParameters);
+        this.encoder = motor.getEncoder();
+    }
+
+    public void setVelocityConversionFactor(double factor) {
+        encoderConfig.velocityConversionFactor(factor);
         sparkMaxConfig.apply(encoderConfig);
         motor.configure(sparkMaxConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kNoPersistParameters);
         this.encoder = motor.getEncoder();
@@ -120,8 +164,7 @@ public class MotorController{
         pidController.setReference(pos, ControlType.kPosition);
     }
     
-    public String getName() {
+    public String getName(){
         return name;
     }
-    //MotorController motor = new MotorController("LeftMotor", 1, MotorType.kBrushless, false, IdleMode.kBrake, 1.0);
 }
