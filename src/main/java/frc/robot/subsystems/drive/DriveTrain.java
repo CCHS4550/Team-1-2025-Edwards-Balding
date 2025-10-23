@@ -29,6 +29,13 @@ public class DriveTrain extends SubsystemBase{
         }
     );
 
+    public void stopRobot(){
+        frontLeft.set(0);
+        frontRight.set(0);
+        backLeft.set(0);
+        backRight.set(0);
+    }
+
     public void driveStraight(double speed){
         frontLeftMotor.set(-speed);
         backLeftMotor.set(-speed); //Anticlockwise - so all wheels go forward 
@@ -54,5 +61,35 @@ public class DriveTrain extends SubsystemBase{
 
     public void teleDrive(double moveSpeed, double turnSpeed){
         diffDrive.arcadeDrive(moveSpeed, turnSpeed);
+    }
+
+    public Command basicDrive(double speed){ //Drive straight while executed by command scheduler
+        return this.runEnd(
+            () -> driveStraight(speed), 
+            () -> stopRobot());
+    }
+
+    public Command basicTurn(String direction, double speed){
+        return this.runEnd(
+            () -> turnDirection(direction, speed), 
+            () -> stopRobot());
+    }
+
+    public Command controlledDrive(double moveSpeed, double turnSpeed){
+        return run(() -> teleDrive(moveSpeed, turnSpeed));
+    }
+
+    public Command autoDriveForward(double speed, double time){
+        return deadline(
+            waitSeconds(time), 
+            basicDrive(speed)
+        ).withTimeout(time);
+    }
+
+    public Command autoDriveTurn(double speed, boolean turn, double time){
+        return deadline(
+            waitSeconds(time), 
+            basicTurn(turn, speed)
+        ).withTimeout(time);
     }
 }
