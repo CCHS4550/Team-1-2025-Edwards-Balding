@@ -7,6 +7,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.helpers.MotorController;
 import frc.robot.Constants;
 
@@ -29,9 +30,20 @@ public class Shooter extends SubsystemBase{
         rightShooterMotor.setVoltage();
     }
 
+    public void setShooterSpeed(double speed)
+    {
+        leftShooterMotor.set(speed);
+        rightShooterMotor.set(speed);
+    }
+
+    public void setShooterSpeedDefault()
+    {
+        this.setShooterSpeed(Constants.OperatorConstants.SHOOTER_SPEED);
+    }
+
     public Command shoot()
     {
-        return this.runEnd(()->setShooterVoltageDefault(), (()->setShooterVoltage(0)));
+        return this.runEnd(()->setShooterSpeedDefault(), (()->setShooterVoltage(0)));
     }
 
     public Command halt(){
