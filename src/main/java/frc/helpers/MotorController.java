@@ -17,6 +17,8 @@ import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkBase;
 
+import frc.robot.Constants;
+
 /**
      * @param deviceID The channel of the motor controller
      * @param controlMode Specify whether the motor controller is operating in Brushed or Brushless mode
@@ -141,6 +143,14 @@ public class MotorController{
     //By default the position is in encoder units, but will return a distance if the Position Conversion Factor has been set.
     public double getPosition(){
         return encoder.getPosition();
+    }
+
+    public void setVoltage(){
+        motor.setVoltage(Constants.OperatorConstants.ShooterVoltage);
+    }
+
+    public void setVoltage(double voltage){
+        motor.setVoltage(voltage);
     }
     
     /**
