@@ -3,7 +3,7 @@ package frc.robot.subsystems.shooter;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
+//import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,11 +11,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.helpers.MotorController;
 import frc.robot.Constants;
 
-public class Shooter extends SubsystemBase{
+public class ShooterIOHardware extends SubsystemBase{
+    
     //Left motor on the left hand side when looking at CAD from front direction (left is inverted)
     private MotorController leftShooterMotor = new MotorController("leftShooterMotor", Constants.OperatorConstants.LShooterID, MotorType.kBrushless, true, IdleMode.kBrake);
-    private MotorController rightShooterMotor = new MotorController("leftShooterMotor", Constants.OperatorConstants.RShooterID, MotorType.kBrushless, false, IdleMode.kBrake);
-
+    private MotorController rightShooterMotor = new MotorController("rightShooterMotor", Constants.OperatorConstants.RShooterID, MotorType.kBrushless, false, IdleMode.kBrake);
+    
+    
     //private final SlewRateLimiter shooterLimiter = new SlewRateLimiter(1.0);
 
     public void setShooterVoltage(double voltage)
