@@ -9,5 +9,5 @@ public interface ShooterIO {
 
     public default void setShooterSpeed(double speed) {}
 
-    public default void setShooterSpeed() {}
+    public default void setShooterSpeedDefault() {}
 }
