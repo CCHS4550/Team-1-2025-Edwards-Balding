@@ -20,6 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer{
   // The robot's subsystems and commands are defined here...
   private final DriveTrain driver = new DriveTrain();
+
+  private final Shooter shooter = new Shooter(new ShooterIOHardware);
+  private final Intake intake = new Intake(new IntakeIOHardware);
+
+  private final CommandXboxController controllerDriver = new CommandXboxController(0);
+
   public RobotContainer(){
     driveScheme.configure(driver, 0);
     configureBindings();
@@ -42,6 +48,17 @@ public class RobotContainer{
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    /* ChatGPT: 
+        driver.rightBumper().whileTrue(shooter.shoot());
+        driver.b().onTrue(shooter.halt());
+        driver.a().onTrue(shooter.runOnce(() -> shooter.setShooterSpeed(0.5)));
+
+        new Trigger(() -> driver.getRightTriggerAxis() > 0.1)
+            .whileTrue(shooter.run(() ->
+                shooter.setShooterSpeed(driver.getRightTriggerAxis())
+            )); 
+    */
   }
 
   /**
