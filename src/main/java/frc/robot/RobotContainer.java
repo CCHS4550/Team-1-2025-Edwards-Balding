@@ -21,11 +21,6 @@ public class RobotContainer{
   // The robot's subsystems and commands are defined here...
   private final DriveTrain driver = new DriveTrain();
 
-  private final Shooter shooter = new Shooter(new ShooterIOHardware);
-  private final Intake intake = new Intake(new IntakeIOHardware);
-
-  private final CommandXboxController controllerDriver = new CommandXboxController(0);
-
   public RobotContainer(){
     driveScheme.configure(driver, 0);
     configureBindings();
