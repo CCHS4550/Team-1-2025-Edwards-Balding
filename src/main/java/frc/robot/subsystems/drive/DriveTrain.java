@@ -38,7 +38,7 @@ public class DriveTrain extends SubsystemBase{
 
     public Command basicTurn(String direction, double speed){
         return this.runEnd(
-            () -> turnDirection(direction, speed), 
+            () -> differentialDrive(direction, speed), 
             () -> stopRobot());
     }
 
