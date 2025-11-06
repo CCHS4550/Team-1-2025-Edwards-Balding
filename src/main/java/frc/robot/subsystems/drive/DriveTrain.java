@@ -19,15 +19,7 @@ public class DriveTrain extends SubsystemBase{
     }
 
     public void driveStraight(double speed){
-        io.driveStraight(speed);
-    }
-
-    public void turnDirection(String direction, double speed){
-        io.turnDirection(direction,speed)
-    }
-
-    public void teleDrive(double moveSpeed, double turnSpeed){
-        io.teleDrive(moveSpeed,turnSpeed)
+        io.differentialDrive(speed, 0);
     }
 
     public Command basicDrive(double speed){ //Drive straight while executed by command scheduler
@@ -36,27 +28,17 @@ public class DriveTrain extends SubsystemBase{
             () -> stopRobot());
     }
 
-    public Command basicTurn(String direction, double speed){
-        return this.runEnd(
-            () -> differentialDrive(direction, speed), 
-            () -> stopRobot());
-    }
-
-    public Command controlledDrive(double moveSpeed, double turnSpeed){
-        return run(() -> teleDrive(moveSpeed, turnSpeed));
-    }
-
     public Command autoDriveForward(double speed, double time){
         return deadline(
             waitSeconds(time), 
-            basicDrive(speed)
+            basicDrive(speed, 0)
         ).withTimeout(time);
     }
 
     public Command autoDriveTurn(double speed, boolean turn, double time){
         return deadline(
             waitSeconds(time), 
-            basicTurn(turn, speed)
+            differentialDrive(0, turn)
         ).withTimeout(time);
     }
 }
