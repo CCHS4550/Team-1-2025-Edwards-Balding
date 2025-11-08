@@ -5,5 +5,5 @@ public interface DriveTrainIO{
 
     public default void driveStraight(double speed){}
 
-    public default void differentialDrive(double forwardSpeed, turnSpeed){}
+    public default void differentialDrive(double forwardSpeed, double turnSpeed){}
 }

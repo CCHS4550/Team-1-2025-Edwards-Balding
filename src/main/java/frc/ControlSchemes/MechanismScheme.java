@@ -1,30 +1,26 @@
-package frc.robot.controlschemes;
+package frc.ControlSchemes;
 
-import frc.helpers.ControlScheme;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.helpers.ControlScheme;
 import frc.robot.Constants;
-import frc.robot.subsystems.Door;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.drive.DriveTrain;
 
-public class MechanismScheme implements ControlScheme
+public class MechanismScheme
 {
     private static CommandXboxController controller;
 
-    public static void configure(DriveTrain drivetrain, int port)
+    public static void configure(Shooter shooter, Intake intake, int port)
     {
         controller = new CommandXboxController(port);
 
-        configureButtons(drivetrain, port);
+        configureButtons(shooter, intake, port);
     }
 
-    public static void configureButtons(DriveTrain drivetrain, int port)
+    public static void configureButtons(Shooter shooter, Intake intake, int port)
     {
-        //RunCommand that checks if right trigger is pressed and fires shooter flywheels
-        
-        //RunCommand that checks if left trigger is pressed and fires intake motors
+        controller.rightTrigger().whileTrue(shooter.shoot());
 
+        controller.leftTrigger().whileTrue(intake.run());
     }
 }

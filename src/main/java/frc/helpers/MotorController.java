@@ -25,7 +25,7 @@ import com.revrobotics.spark.SparkBase;
      * @param positionFactor The ratio of encoder units to desired units (ie. units -> in)
 */
 
-public class MotorController{
+public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.MotorController{ //idk if this is the way 
     private SparkMax motor;
     public SparkClosedLoopController pidController; //Keeping it PID for easy reference
     private RelativeEncoder encoder;
@@ -99,7 +99,8 @@ public class MotorController{
     }
 
     public void setVoltage(){
-        motor.setVoltage(Constants.OperatorConstants.ShooterVoltage);
+        //motor.setVoltage(Constants.OperatorConstants.ShooterVoltage);
+        motor.setVoltage(12.0);
     }
 
     public void setVoltage(double volts){
@@ -166,5 +167,25 @@ public class MotorController{
     
     public String getName(){
         return name;
+    }
+    @Override
+    public double get() {
+        // TODO Auto-generated method stub
+        return encoder.getVelocity();
+    }
+    @Override
+    public void setInverted(boolean isInverted) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setInverted'");
+    }
+    @Override
+    public boolean getInverted() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getInverted'");
+    }
+    @Override
+    public void stopMotor() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'stopMotor'");
     }
 }

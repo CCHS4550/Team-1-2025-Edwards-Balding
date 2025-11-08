@@ -1,7 +1,9 @@
 package frc.robot.subsystems.drive;
 
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import frc.helpers.MotorController;
 import frc.robot.Constants;
 
@@ -28,13 +30,13 @@ public class DriveTrainHardware implements DriveTrainIO
     {
         if (turnSpeed > 0.5 || turnSpeed < -0.5)
         {
-            frontDifferentialDrive.arcadeDrive(driveTrainControllerScalar*moveSpeed, driveTrainControllerScalar*turnSpeed);
-            backDifferentialDrive.arcadeDrive(driveTrainControllerScalar*moveSpeed, driveTrainControllerScalar*turnSpeed);
+            leftDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, Constants.OperatorConstants.driveTrainControllerScalar*turnSpeed);
+            rightDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, Constants.OperatorConstants.driveTrainControllerScalar*turnSpeed);
         }
         else
         {
-            frontDifferentialDrive.arcadeDrive(driveTrainControllerScalar*moveSpeed, 0);
-            backDifferentialDrive.arcadeDrive(driveTrainControllerScalar*moveSpeed, 0);
+            leftDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, 0);
+            rightDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, 0);
         }
     }
 }
