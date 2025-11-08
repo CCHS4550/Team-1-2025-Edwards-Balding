@@ -108,13 +108,6 @@ public class MotorController{
         return motor.getAppliedOutput() * 12.0;
     }
 
-    public void setMaxVoltage(double maxVolts){
-        ClosedLoopConfig closedLoopConfig = new ClosedLoopConfig();
-        closedLoopConfig.outputRange(-maxVolts, maxVolts);
-        sparkMaxConfig.apply(closedLoopConfig);
-        motor.configure(sparkMaxConfig, SparkBase.ResetMode.kNoResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
-    }
-
     //Electric current in amps that motor is drawing
     public double getCurrent(){
         return motor.getOutputCurrent();
