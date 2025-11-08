@@ -35,7 +35,7 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
     private final EncoderConfig encoderConfig;
     private final SparkMaxConfig sparkMaxConfig;
 
-    public MotorControllerWrapper(String name, int deviceID, MotorType motorType, boolean inverted, IdleMode idleMode, double positionFactor){
+    public MotorController(String name, int deviceID, MotorType motorType, boolean inverted, IdleMode idleMode, double positionFactor){
         this.name = name;
         motor = new SparkMax(deviceID, motorType);
         pidController = motor.getClosedLoopController();
@@ -56,7 +56,7 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
         encoder = motor.getEncoder();
     }
 
-    public MotorControllerWrapper(String name, int deviceID, MotorType motorType, boolean inverted, IdleMode idleMode){
+    public MotorController(String name, int deviceID, MotorType motorType, boolean inverted, IdleMode idleMode){
         this(name, deviceID, motorType, inverted, idleMode, 1.0);
     }
 
