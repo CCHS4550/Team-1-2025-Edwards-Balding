@@ -25,7 +25,7 @@ import com.revrobotics.spark.SparkBase;
      * @param positionFactor The ratio of encoder units to desired units (ie. units -> in)
 */
 
-public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.MotorController{ //idk if this is the way 
+public class MotorController{
     private SparkMax motor;
     public SparkClosedLoopController pidController; //Keeping it PID for easy reference
     private RelativeEncoder encoder;
@@ -40,37 +40,22 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
         this.motor = new SparkMax(deviceID, controlMode);
         this.name = name;
         this.pidController = motor.getClosedLoopController();
-
         this.encoderConfig = new EncoderConfig();
+        this.sparkMaxConfig = new SparkMaxConfig();
+
         encoderConfig.positionConversionFactor(positionFactor);
 
-        this.sparkMaxConfig = new SparkMaxConfig();
         sparkMaxConfig.inverted(inverted);
         sparkMaxConfig.idleMode(idleMode);
         sparkMaxConfig.apply(encoderConfig);
 
-        motor.configure(sparkMaxConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kNoPersistParameters);
+        motor.configure(sparkMaxConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
 
         this.encoder = motor.getEncoder();
-        voltageConversionFactor = Constants.OperatorConstants.voltageConversionFactor;
+        this.voltageConversionFactor = Constants.OperatorConstants.voltageConversionFactor;
     }
     public MotorController(String name, int deviceID, MotorType controlMode, boolean inverted, IdleMode idleMode){
-        this.motor = new SparkMax(deviceID, controlMode);
-        this.name = name;
-        this.pidController = motor.getClosedLoopController();
-
-        this.encoderConfig = new EncoderConfig();
-        encoderConfig.positionConversionFactor(1.0);
-
-        this.sparkMaxConfig = new SparkMaxConfig();
-        sparkMaxConfig.inverted(inverted);
-        sparkMaxConfig.idleMode(idleMode);
-        sparkMaxConfig.apply(encoderConfig);
-
-        motor.configure(sparkMaxConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kNoPersistParameters);
-
-        this.encoder = motor.getEncoder();
-        voltageConversionFactor = Constants.OperatorConstants.voltageConversionFactor;
+        this(name, deviceID, controlMode, inverted, idleMode, 1.0);
     }
 
     public void reset(){
@@ -89,10 +74,10 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
         }
     }
 
-    public double getSpeed(){
+    //From -1 to 1, negatives are backwards
+    public double getOutput(){
         return motor.get();
     }
-    
 
     public void disable(){
         motor.disable();
@@ -119,6 +104,23 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
         motor.setVoltage(speed*voltageConversionFactor);
     }
 
+    public double getVoltage(){
+        return motor.getAppliedOutput() * 12.0;
+    }
+
+    public void setMaxVoltage(double maxVolts){
+        ClosedLoopConfig closedLoopConfig = new ClosedLoopConfig();
+        closedLoopConfig.outputRange(-maxVolts, maxVolts);
+        sparkMaxConfig.apply(closedLoopConfig);
+        motor.configure(sparkMaxConfig, SparkBase.ResetMode.kNoResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+    }
+
+    //Electric current in amps that motor is drawing
+    public double getCurrent(){
+        return motor.getOutputCurrent();
+    }
+
+
     public double getVelocity(){
         return encoder.getVelocity();
     }
@@ -127,14 +129,12 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
         encoderConfig.positionConversionFactor(factor);
         sparkMaxConfig.apply(encoderConfig);
         motor.configure(sparkMaxConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kNoPersistParameters);
-        this.encoder = motor.getEncoder();
     }
 
     public void setVelocityConversionFactor(double factor) {
         encoderConfig.velocityConversionFactor(factor);
         sparkMaxConfig.apply(encoderConfig);
         motor.configure(sparkMaxConfig,SparkBase.ResetMode.kResetSafeParameters,SparkBase.PersistMode.kNoPersistParameters);
-        this.encoder = motor.getEncoder();
     }
 
     //Sets the encoder position
@@ -168,24 +168,34 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
     public String getName(){
         return name;
     }
-    @Override
-    public double get() {
-        // TODO Auto-generated method stub
-        return encoder.getVelocity();
+
+    public void setInverted(boolean isInverted){
+        sparkMaxConfig.inverted(isInverted);
+        motor.configure(sparkMaxConfig, SparkBase.ResetMode.kNoResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
     }
-    @Override
-    public void setInverted(boolean isInverted) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setInverted'");
+
+    public boolean getInverted(){
+        return motor.getInverted();
     }
-    @Override
-    public boolean getInverted() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getInverted'");
+
+    //Some other functions
+    //Permanently saves configuration to Spark MAX flash memory
+    public void burnFlash(){
+        motor.burnFlash();
     }
-    @Override
-    public void stopMotor() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stopMotor'");
+
+    //Restore factory defaults (resetting weird configs usually)
+    public void restoreFactoryDefaults() {
+        motor.restoreFactoryDefaults();
+    }
+
+    //Set a new idle mode (Brake or Coast)
+    public void setIdleMode(IdleMode mode) {
+        sparkMaxConfig.idleMode(mode);
+        motor.configure(sparkMaxConfig, SparkBase.ResetMode.kNoResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+    }
+
+    public void stopMotor(){
+        motor.set(0);
     }
 }
