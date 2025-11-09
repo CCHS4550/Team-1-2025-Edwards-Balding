@@ -1,5 +1,5 @@
 package frc.robot.subsystems.intake;
 
-public class something2 {
+public class something2{
     
 }

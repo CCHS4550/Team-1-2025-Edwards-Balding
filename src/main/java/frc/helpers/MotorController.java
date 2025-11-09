@@ -82,6 +82,12 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
     @Override
     public void setInverted(boolean isInverted){
         motor.setInverted(isInverted);
+    public void setVoltage(){
+        motor.setVoltage(Constants.OperatorConstants.ShooterVoltage);
+    }
+
+    public void setVoltage(double volts){
+        motor.setVoltage(volts);
     }
 
     @Override
