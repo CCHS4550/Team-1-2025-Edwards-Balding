@@ -9,9 +9,13 @@ public final class Constants{
         public static final int BLdeviceID = 3;
         public static final int BRdeviceID = 4;
 
+        public static final double driveTrainControllerScalar = 0.5;
+
+        //for intake
         public static final int flywheelMotorID = 61;
         public static final double flywheelVoltageDefault = 12;
         public static final double flywheelSpeedDefault = 0.5;
+        
         //Shooter constants
         public static final int LShooterID = 41;
         public static final int RShooterID = 67;

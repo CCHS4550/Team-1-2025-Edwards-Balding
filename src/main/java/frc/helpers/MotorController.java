@@ -82,12 +82,15 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
     @Override
     public void setInverted(boolean isInverted){
         motor.setInverted(isInverted);
+    }
+
     public void setVoltage(){
         motor.setVoltage(Constants.OperatorConstants.ShooterVoltage);
     }
 
     public void setVoltage(double volts){
-        motor.setVoltage(volts);
+        double capped = MathUtil.clamp(volts, -12.0, 12.0);
+        motor.setVoltage(capped);
     }
 
     @Override
@@ -120,11 +123,6 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
 
     public void setReferencePosition(double pos){
         pidController.setReference(pos, ControlType.kPosition);
-    }
-
-    public void setVoltage(double volts){
-        double capped = MathUtil.clamp(volts, -12.0, 12.0);
-        motor.setVoltage(capped);
     }
 
     public void setVoltageFromSpeed(double speed){
