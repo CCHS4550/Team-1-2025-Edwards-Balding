@@ -1,5 +1,8 @@
 package frc.maps;
 
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
+public class ControlMap {
 public interface ControlMap {
     // Joystick Axises
     public static final int L_JOYSTICK_HORIZONTAL = 0;
@@ -35,5 +38,4 @@ public interface ControlMap {
 
     // Controller Zeroes
     public static final double ZERO = 0.05;
-
 }
