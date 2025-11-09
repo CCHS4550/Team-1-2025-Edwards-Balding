@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import frc.ControlSchemes.DriveScheme;
+import frc.ControlSchemes.driveScheme;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.drive.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,7 +22,7 @@ public class RobotContainer{
   private final DriveTrain driver = new DriveTrain();
 
   public RobotContainer(){
-    DriveScheme.configure(driver, 0);
+    //DriveScheme.configure(driver, 0);
     configureBindings();
   }
 

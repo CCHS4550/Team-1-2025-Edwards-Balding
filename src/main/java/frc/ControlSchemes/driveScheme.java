@@ -6,7 +6,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
-public class DriveScheme{
+public class driveScheme{
     private static CommandXboxController controller;
     private static DoubleSupplier driveSpeed = ()->1.0;
 
