@@ -9,13 +9,13 @@ import frc.robot.Constants;
 
 public class DriveTrainHardware implements DriveTrainIO
 {
-    private MotorController frontLeftMotor = new MotorController("FrontLeftMotor", Constants.OperatorConstants.FLdeviceID, MotorType.kBrushless, true, IdleMode.kBrake);
+    private MotorController frontLeftMotor = new MotorController("FrontLeftMotor", Constants.OperatorConstants.FLdeviceID, MotorType.kBrushless, true, IdleMode.kBrake); //invert 2 left motors
     private MotorController frontRightMotor = new MotorController("FrontRightMotor", Constants.OperatorConstants.FRdeviceID, MotorType.kBrushless, false, IdleMode.kBrake);
     private MotorController backLeftMotor = new MotorController("BackLeftMotor", Constants.OperatorConstants.BLdeviceID, MotorType.kBrushless, true, IdleMode.kBrake);
     private MotorController backRightMotor = new MotorController("BackRightMotor", Constants.OperatorConstants.BRdeviceID, MotorType.kBrushless, false, IdleMode.kBrake);
 
-    private DifferentialDrive leftDifferentialDrive = new DifferentialDrive(frontLeftMotor, backLeftMotor);
-    private DifferentialDrive rightDifferentialDrive = new DifferentialDrive(frontRightMotor, backRightMotor);
+    private DifferentialDrive frontDifferentialDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+    private DifferentialDrive backDifferentialDrive = new DifferentialDrive(backLeftMotor, backRightMotor);
 
     @Override
     public void stopRobot(){
@@ -30,13 +30,13 @@ public class DriveTrainHardware implements DriveTrainIO
     {
         if (turnSpeed > 0.5 || turnSpeed < -0.5)
         {
-            leftDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, Constants.OperatorConstants.driveTrainControllerScalar*turnSpeed);
-            rightDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, Constants.OperatorConstants.driveTrainControllerScalar*turnSpeed);
+            frontDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, Constants.OperatorConstants.driveTrainControllerScalar*turnSpeed);
+            backDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, Constants.OperatorConstants.driveTrainControllerScalar*turnSpeed);
         }
         else
         {
-            leftDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, 0);
-            rightDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, 0);
+            frontDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, 0);
+            backDifferentialDrive.arcadeDrive(Constants.OperatorConstants.driveTrainControllerScalar*forwardSpeed, 0);
         }
     }
 }

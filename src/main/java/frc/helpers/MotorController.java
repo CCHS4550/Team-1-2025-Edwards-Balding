@@ -15,6 +15,9 @@ import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import edu.wpi.first.math.MathUtil;
+
 import com.revrobotics.spark.SparkBase;
 
 /**
@@ -103,9 +106,11 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
         return encoder.getVelocity();
     }
 
+    /* idk what this does lowkey
     public void setPID(double kP, double kI, double kD, double kFF){
         pidController.setPIDF(kP, kI, kD, kFF);
     }
+    */ 
 
     public void setReferencePosition(double pos){
         pidController.setReference(pos, ControlType.kPosition);
@@ -134,5 +139,12 @@ public class MotorController implements edu.wpi.first.wpilibj.motorcontrol.Motor
 
     public String getName(){
         return name;
+    }
+
+    //don't plan on using this
+    @Override
+    public void disable() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'disable'");
     }
 }
