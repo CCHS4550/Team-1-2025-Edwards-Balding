@@ -10,6 +10,11 @@ import frc.robot.Constants;
 public class DriveTrain extends SubsystemBase{
     public DriveTrainIO io;
 
+    public DriveTrain(DriveTrainIO io)
+    {
+        this.io = io;
+    }
+
     public void stopRobot(){
         io.stopRobot();
     }
