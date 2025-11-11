@@ -5,8 +5,21 @@
 package frc.robot;
 
 import frc.ControlSchemes.DriveScheme;
+import frc.ControlSchemes.MechanismScheme;
 import frc.robot.Constants.OperatorConstants;
+
 import frc.robot.subsystems.drive.DriveTrain;
+import frc.robot.subsystems.drive.DriveTrainIO;
+import frc.robot.subsystems.drive.DriveTrainHardware;
+
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOHardware;
+
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterIO;
+import frc.robot.subsystems.shooter.ShooterIOHardware;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -19,53 +32,20 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer{
   // The robot's subsystems and commands are defined here...
-  private final DriveTrain driver = new DriveTrain();
+  private final DriveScheme driveScheme = new DriveScheme();
+  private final DriveTrainIO drivetrainHardware = new DriveTrainHardware();
+  private final DriveTrain driver = new DriveTrain(drivetrainHardware);
+
+  private final MechanismScheme mechanismScheme = new MechanismScheme();
+  private final IntakeIO intakeHardware = new IntakeIOHardware();
+  private final Intake intake = new Intake(intakeHardware);
+  private final ShooterIO shooterHardware = new ShooterIOHardware();
+  private final Shooter shooter = new Shooter(shooterHardware);
+
 
   public RobotContainer(){
-    DriveScheme.configure(driver, 0);
-    configureBindings();
+    driveScheme.configure(driver, 0);
+    mechanismScheme.configure(shooter, intake, 0);
   }
-
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // new Trigger(m_exampleSubsystem::exampleCondition)
-    //     .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
-    /* ChatGPT: 
-        driver.rightBumper().whileTrue(shooter.shoot());
-        driver.b().onTrue(shooter.halt());
-        driver.a().onTrue(shooter.runOnce(() -> shooter.setShooterSpeed(0.5)));
-
-        new Trigger(() -> driver.getRightTriggerAxis() > 0.1)
-            .whileTrue(shooter.run(() ->
-                shooter.setShooterSpeed(driver.getRightTriggerAxis())
-            )); 
-    */
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-
-  /*
-  public Command getAutonomousCommand(){
-    // An example command will be run in autonomous
-    return autos.moveForwardandShoot(driver, shooter, indexer);
-  }
-  */
+  
 }
