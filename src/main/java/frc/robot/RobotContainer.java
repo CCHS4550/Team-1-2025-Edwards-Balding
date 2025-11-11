@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import frc.ControlSchemes.DriveScheme;
+import frc.ControlSchemes.driveScheme;
 import frc.ControlSchemes.MechanismScheme;
 import frc.robot.Constants.OperatorConstants;
 
@@ -16,10 +16,12 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 
+import frc.robot.subsystems.indexer.*; //geeked vs locked in
+
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOHardware;
-
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -32,20 +34,22 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer{
   // The robot's subsystems and commands are defined here...
-  private final DriveScheme driveScheme = new DriveScheme();
+  private final driveScheme driveScheme = new driveScheme();
   private final DriveTrainIO drivetrainHardware = new DriveTrainHardware();
-  private final DriveTrain driver = new DriveTrain(drivetrainHardware);
+  private final DriveTrain driveTrain = new DriveTrain(drivetrainHardware);
 
   private final MechanismScheme mechanismScheme = new MechanismScheme();
   private final IntakeIO intakeHardware = new IntakeIOHardware();
   private final Intake intake = new Intake(intakeHardware);
   private final ShooterIO shooterHardware = new ShooterIOHardware();
   private final Shooter shooter = new Shooter(shooterHardware);
+  private final IndexerIO indexerHardware = new IndexerHardware();
+  private final Indexer indexer = new Indexer(indexerHardware);
 
 
   public RobotContainer(){
-    driveScheme.configure(driver, 0);
-    mechanismScheme.configure(shooter, intake, 0);
+    driveScheme.configure(driveTrain, 0);
+    mechanismScheme.configure(shooter, intake, indexer, 0);
   }
   
 }
