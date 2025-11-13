@@ -22,8 +22,11 @@ public class MechanismScheme
     public static void configureButtons(Shooter shooter, Intake intake, Indexer indexer, int port)
     {
         controller.rightTrigger().whileTrue(shooter.shoot());
+        controller.rightTrigger().whileFalse(shooter.halt());
 
         controller.leftTrigger().whileTrue(intake.run());
+        controller.leftTrigger().whileFalse(intake.halt());
+
 
         controller.a().onTrue(indexer.IndexerForward());
         controller.a().onFalse(indexer.IndexStopper());
