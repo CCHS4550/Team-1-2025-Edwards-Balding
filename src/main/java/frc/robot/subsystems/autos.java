@@ -41,17 +41,21 @@ public class autos {
             );
           return Commands.sequence(
                 //going to the goal
-                Drivetrain.autoDriveForward(0.5,1);
-                Drivetrain.autoDriveTurn(0.5,0.5);
-                Drivetrain.autoDriveForward(0.5,0.5);
+                Drivetrain.autoDriveForward(0.5,1),
+                Drivetrain.autoDriveTurn(0.5,0.5),
+                Drivetrain.autoDriveForward(0.5,0.5),
 
                 //fire the shooter
                 Commands.deadline(
                     Shooter.autoShoot(0.3, 5.0),
                     feedCycle();
-                )
-          )
+                );
+          );
             
+    }
+
+    public static Command standardAutoRoutine(DriveTrain driveTrain, Shooter shooter, Indexer indexer){
+        return MoveForwardandShoot(driveTrain, shooter, indexer);
     }
  }
         
