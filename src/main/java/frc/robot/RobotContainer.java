@@ -21,6 +21,9 @@ import frc.robot.subsystems.indexer.*; //geeked vs locked in
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOHardware;
+
+import frc.robot.subsystems.autos;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -50,6 +53,11 @@ public class RobotContainer{
   public RobotContainer(){
     driveScheme.configure(driveTrain, 0);
     mechanismScheme.configure(shooter, intake, indexer, 0);
+  }
+
+  public Command getAutonomousCommand()
+  {
+    return autos.standardAutoRoutine(driveTrain, shooter, indexer);
   }
   
 }

@@ -37,9 +37,18 @@ public class Shooter extends SubsystemBase{
         return this.runEnd(()->setShooterSpeedDefault(), (()->setShooterVoltage(0)));
     }
 
+    public Command shoot(double speed)
+    {
+        return this.runEnd(()->setShooterSpeed(speed), (()->setShooterVoltage(0)));
+    }
+
+    public Command autoShoot(double speed, double time)
+    {
+        return Commands.deadline(Commands.waitSeconds(time), shoot(speed)).withTimeout(time);
+    }
+
     public Command halt()
     {
         return Commands.runOnce(()-> {}, this);
     }
-    
 }
