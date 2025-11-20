@@ -44,7 +44,7 @@ public class Shooter extends SubsystemBase{
 
     public Command autoShoot(double speed, double time)
     {
-        return deadline(waitSeconds(time), rev(speed)).withTimeout(time);
+        return Commands.deadline(Commands.waitSeconds(time), shoot(speed)).withTimeout(time);
     }
 
     public Command halt()

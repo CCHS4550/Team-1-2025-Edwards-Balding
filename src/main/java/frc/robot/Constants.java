@@ -21,9 +21,9 @@ public final class Constants{
         public static final int RShooterID = 67;
         public static final double ShooterVoltage = 6; //-12.0 to 12.0
         public static final double ShooterSpeed = 0.5; //-1.0 to 1.0, needs testing
-        public static final int IndexShooterID = 14;
 
         //Indexer
+        public static final int IndexShooterID = 14;
         public static final double IndexerOutput = 0.3; //Positive value
     }
 }

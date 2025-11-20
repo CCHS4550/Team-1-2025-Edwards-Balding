@@ -57,7 +57,7 @@ public class RobotContainer{
 
   public Command getAutonomousCommand()
   {
-    return autos.moveForwardandShoot();
+    return autos.standardAutoRoutine(driveTrain, shooter, indexer);
   }
   
 }
