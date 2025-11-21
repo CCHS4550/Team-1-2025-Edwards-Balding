@@ -12,20 +12,20 @@ public interface ControlMap {
     public static final int R_JOYSTICK_VERTICAL = 5;
 
     // Controller Buttons
-    public static final int A_BUTTON = 1;
-    public static final int B_BUTTON = 2;
-    public static final int X_BUTTON = 3;
-    public static final int Y_BUTTON = 4;
-    public static final int LB_BUTTON = 5;
-    public static final int RB_BUTTON = 6;
-    public static final int SELECT_BUTTON = 7;
-    public static final int START_BUTTON = 8;
+    public static final int A_BUTTON = 6;
+    public static final int B_BUTTON = 7;
+    public static final int X_BUTTON = 8;
+    public static final int Y_BUTTON = 9;
+    public static final int LB_BUTTON = 10;
+    public static final int RB_BUTTON = 11;
+    public static final int SELECT_BUTTON = 12;
+    public static final int START_BUTTON = 13;
 
     // These buttons are when you push down the left and right circle pad
-    public static final int L_JOYSTICK_BUTTON = 9;
-    public static final int R_JOYSTICK_BUTTON = 10;
+    public static final int L_JOYSTICK_BUTTON = 14;
+    public static final int R_JOYSTICK_BUTTON = 15;
 
-    //D Pad Buttons
+    // D Pad Buttons
     public static final int DPAD_UP = 0;
     public static final int DPAD_UP_RIGHT = 45;
     public static final int DPAD_RIGHT = 90;
