@@ -46,5 +46,6 @@ public class DriveTrain extends SubsystemBase {
     public void differentialDrive(double forward, double turn) {
         frontDifferentialDrive.arcadeDrive(forward, turn);
         backDifferentialDrive.arcadeDrive(forward, turn); // to follow front
+        System.out.println("Driving!");// ------------------------------
     }
 }
