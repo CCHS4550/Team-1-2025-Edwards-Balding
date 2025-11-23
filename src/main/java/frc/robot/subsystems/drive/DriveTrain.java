@@ -1,5 +1,10 @@
 package frc.robot.subsystems.drive;
 
+import frc.helpers.*;
+
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -7,49 +12,39 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 
-public class DriveTrain extends SubsystemBase{
-    public DriveTrainIO io;
+public class DriveTrain extends SubsystemBase {
+    private MotorController frontLeftMotor = new MotorController("FrontLeftMotor",
+            Constants.OperatorConstants.FLdeviceID,
+            MotorType.kBrushless,
+            Constants.OperatorConstants.FLinverted,
+            IdleMode.kBrake);
 
-    public DriveTrain(DriveTrainIO io)
-    {
-        this.io = io;
-    }
+    private MotorController frontRightMotor = new MotorController("FrontRightMotor",
+            Constants.OperatorConstants.FRdeviceID,
+            MotorType.kBrushless,
+            Constants.OperatorConstants.FRinverted,
+            IdleMode.kBrake);
 
-    public void stopRobot(){
-        io.stopRobot();
-    }
+    private MotorController backLeftMotor = new MotorController("BackLeftMotor",
+            Constants.OperatorConstants.BLdeviceID,
+            MotorType.kBrushless,
+            Constants.OperatorConstants.BLinverted,
+            IdleMode.kBrake);
 
-    public void driveStraight(double speed){
-        io.differentialDrive(speed, 0);
-    }
+    private MotorController backRightMotor = new MotorController("BackRightMotor",
+            Constants.OperatorConstants.BRdeviceID,
+            MotorType.kBrushless,
+            Constants.OperatorConstants.BRinverted,
+            IdleMode.kBrake);
 
-    public void drive(double speed, double turn)
-    {
-        io.differentialDrive(speed, turn);
-    }
+    private DifferentialDrive frontDifferentialDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+    private DifferentialDrive backDifferentialDrive = new DifferentialDrive(backLeftMotor, backRightMotor); // because
+                                                                                                            // motorcontrollergroups
+                                                                                                            // are
+                                                                                                            // deprecated
 
-    public Command basicDrive(double speed){ //Drive straight while executed by command scheduler
-        return this.runEnd(
-            () -> driveStraight(speed), 
-            () -> stopRobot());
-    }
-
-    public Command basicTurn(double turn)
-    {
-        return this.runEnd(() -> io.differentialDrive(0, turn), () -> stopRobot());
-    }
-
-    public Command autoDriveForward(double speed, double time){
-        return Commands.deadline(
-            Commands.waitSeconds(time), 
-            basicDrive(speed)
-        ).withTimeout(time);
-    }
-
-    public Command autoDriveTurn(double turn, double time){
-        return Commands.deadline(
-            Commands.waitSeconds(time), 
-            basicTurn(turn)
-        ).withTimeout(time);
+    public void differentialDrive(double forward, double turn) {
+        frontDifferentialDrive.arcadeDrive(forward, turn);
+        backDifferentialDrive.arcadeDrive(forward, turn); // to follow front
     }
 }
